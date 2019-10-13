@@ -53,7 +53,7 @@
 
 		}
 
-		array(array) {
+		item(array) {
 
 			return array[this.int(array.length)]
 
@@ -71,6 +71,8 @@
 		static float() { return prng.float(...arguments) }
 
 		static int() { return prng.int(...arguments) }
+
+		static item(array) { return prng.item(array) }
 
 	}
 

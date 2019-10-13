@@ -1,6 +1,6 @@
 /*
 	kit.js
-	2019-10-13 23:14 GMT(+2)
+	2019-10-13 23:28 GMT(+2)
 	js toolkit
 	https://github.com/jniac/js-kit
 */
@@ -54,7 +54,7 @@ class PRNG {
 
 	}
 
-	array(array) {
+	item(array) {
 
 		return array[this.int(array.length)]
 
@@ -72,6 +72,8 @@ class PRNG {
 	static float() { return prng.float(...arguments) }
 
 	static int() { return prng.int(...arguments) }
+
+	static item(array) { return prng.item(array) }
 
 }
 

@@ -1,4 +1,5 @@
 import kit from '../src/kit.js'
+// import kit from 'https://jniac.github.io/js-kit/build/kit.module.js'
 
 requestAnimationFrame(function animation() {
 
