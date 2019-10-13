@@ -1,6 +1,6 @@
 /*
 	kit.js
-	2019-10-13 18:53 GMT(+2)
+	2019-10-13 23:14 GMT(+2)
 	js toolkit
 	https://github.com/jniac/js-kit
 */

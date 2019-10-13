@@ -1,5 +1,5 @@
-import { PRNG } from './PRNG.js'
-import { Color } from './Color.js'
+import PRNG from './PRNG.js'
+import Color from './Color.js'
 
 export default {
 

@@ -197,7 +197,7 @@ function hue2rgb(p, q, t){
 
 }
 
-export class Color {
+export default class Color {
 
 	static ensure(value) {
 

@@ -6,7 +6,7 @@ other example https://github.com/davidbau/seedrandom
 
 */
 
-export class PRNG {
+export default class PRNG {
 
 	constructor(seed = 123456789) {
 
@@ -48,7 +48,7 @@ export class PRNG {
 
 	}
 
-	array(array) {
+	item(array) {
 
 		return array[this.int(array.length)]
 
@@ -66,6 +66,8 @@ export class PRNG {
 	static float() { return prng.float(...arguments) }
 
 	static int() { return prng.int(...arguments) }
+
+	static item(array) { return prng.item(array) }
 
 }
 
