@@ -1,9 +1,9 @@
-import PRNG from './PRNG.js'
+import Random from './Random.js'
 import Color from './Color.js'
 
 export default {
 
-	PRNG,
+	Random,
 	Color,
 
 }

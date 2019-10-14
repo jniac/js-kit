@@ -12,7 +12,7 @@ other example https://github.com/davidbau/seedrandom
 
 */
 
-class PRNG {
+class Random {
 
 	constructor(seed = 123456789) {
 
@@ -62,22 +62,22 @@ class PRNG {
 
 	toString() {
 
-		return `PRNG(seed:${this.seed})`
+		return `Random(seed:${this.seed})`
 	}
 
-	static get seed() { return prng.seed }
+	static get seed() { return random.seed }
 
-	static next() { return prng.next() }
+	static next() { return random.next() }
 
-	static float() { return prng.float(...arguments) }
+	static float() { return random.float(...arguments) }
 
-	static int() { return prng.int(...arguments) }
+	static int() { return random.int(...arguments) }
 
-	static item(array) { return prng.item(array) }
+	static item(array) { return random.item(array) }
 
 }
 
-let prng = new PRNG();
+let random = new Random();
 
 let CSS = {
 
@@ -526,7 +526,7 @@ class Color {
 
 var kit = {
 
-	PRNG,
+	Random,
 	Color,
 
 };

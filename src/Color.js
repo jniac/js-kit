@@ -248,6 +248,10 @@ export default class Color {
 
 	}
 
+	yo() {
+		return 'lol'
+	}
+
 	constructor() {
 
 		this.r = 1

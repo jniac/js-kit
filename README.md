@@ -2,7 +2,7 @@
 
 ## online
 
-online demo (PRNG + Color): [test/index.jtml](https://jniac.github.io/js-kit/test/)  
+online demo (Random + Color): [test/index.jtml](https://jniac.github.io/js-kit/test/)  
 
 https://jniac.github.io/js-kit/build/kit.js  
 https://jniac.github.io/js-kit/build/kit.module.js  
