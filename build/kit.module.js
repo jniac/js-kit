@@ -1,12 +1,13 @@
 /*
 	kit.js
-	2019-10-13 23:28 GMT(+2)
+	2019-10-22 13:49 GMT(+2)
 	js toolkit
 	https://github.com/jniac/js-kit
 */
 
 /*
 
+'Random' === 'PRNG'
 Forked from https://gist.github.com/blixt/f17b47c62508be59987b
 other example https://github.com/davidbau/seedrandom
 
@@ -312,10 +313,13 @@ class Color {
 
 	}
 
-	static mix(color1, color2, t) {
+	static mix(color1, color2, t, clamp = true) {
 
 		color1 = Color.ensure(color1);
 		color2 = Color.ensure(color2);
+
+		if (clamp)
+			t = t < 0 ? 0 : t > 1 ? 1 : t;
 
 		let t2 = 1 - t;
 		let c = new Color();
@@ -327,6 +331,37 @@ class Color {
 
 		return c
 
+	}
+
+	static mixArray(colors, t, loop = true, ease = null) {
+
+		let n = colors.length;
+
+		t = t < 0 ? 0 : t > n ? n : t;
+
+		let i = Math.floor(t) % n;
+		let f = t % 1;
+
+		if (ease && typeof(ease) === 'function')
+			f = ease(f);
+
+		if (f === 0)
+			return Color.ensure(colors[i])
+
+		if (i === n - 1) {
+
+			if (!loop)
+				return Color.ensure(colors[i])
+
+			return Color.mix(colors[i], colors[0], f, true)
+
+		}
+
+		return Color.mix(colors[i], colors[i + 1], f, true)
+	}
+
+	yo() {
+		return 'lol'
 	}
 
 	constructor() {
@@ -490,7 +525,7 @@ class Color {
 	 *\t if typeof alpha === 'number' : return #RRGGBBAA where AA is computed from the given alpha
 	 *\t if alpha === 'auto' : return #RRGGBBAA or #RRGGBB depending of the value this.a (this.a < 1)
 	 */
-	getHexString({ prefix = '#', alpha = 'auto', short = false } = {}) {
+	getHex({ prefix = '#', alpha = 'auto', short = false } = {}) {
 
 		let alphaIsNumber = typeof alpha === 'number';
 		let a = alphaIsNumber ? alpha : this.a;
@@ -510,23 +545,88 @@ class Color {
 
 	}
 
+	get hex() {
+
+		return this.getHex()
+
+	}
+
 	valueOf() {
 
-		return this.getHexString()
+		return this.getHex()
 
 	}
 
 	toString() {
 
-		return this.getHexString()
+		return this.getHex()
 
 	}
 
 }
 
+const _clamp = x => x = x < 0 ? 0 : x > 1 ? 1 : x;
+
+/**
+ * https://jsfiddle.net/jniac/1qpum68z/
+ * https://www.desmos.com/calculator/kikl4d4sed
+ * @param x the value
+ * @param p the power
+ * @param m the middle of the ease
+ */
+const inout = (x, p = 3, i = .5, clamp = true) => {
+
+	if (clamp)
+		x = _clamp(x);
+
+	return x === i
+		? x
+		: x < i
+		? 1 / Math.pow(i, p - 1) * Math.pow(x, p)
+		: 1 - 1 / Math.pow(1 - i, p - 1) * Math.pow(1 - x, p)
+
+};
+
+const bindInout = (p = 3, i = .5, clamp = true) => x => inout(p, i, clamp);
+
+const linear = (x, clamp = true) => clamp ? _clamp(x) : x;
+
+const in2 = (x, clamp = true) => (x = linear(x, clamp)) * x;
+const in3 = (x, clamp = true) => (x = linear(x, clamp)) * x * x;
+const in4 = (x, clamp = true) => (x = linear(x, clamp)) * x * x * x;
+const in5 = (x, clamp = true) => (x = linear(x, clamp)) * x * x * x * x;
+const inP = (x, p, clamp = true) => Math.pow(linear(x, clamp), p);
+
+const out2 = (x, clamp = true) => 1 - (x = linear(1 - x, clamp)) * x;
+const out3 = (x, clamp = true) => 1 - (x = linear(1 - x, clamp)) * x * x;
+const out4 = (x, clamp = true) => 1 - (x = linear(1 - x, clamp)) * x * x * x;
+const out5 = (x, clamp = true) => 1 - (x = linear(1 - x, clamp)) * x * x * x * x;
+const outP = (x, p, clamp = true) => 1 - Math.pow(linear(1 - x, clamp), p);
+
+
+var Ease = {
+
+	inout,
+	bindInout,
+
+	linear,
+	in2,
+	in3,
+	in4,
+	in5,
+	inP,
+	out2,
+	out3,
+	out4,
+	out5,
+	outP,
+
+};
+
 var kit = {
 
 	Random,
+	Ease,
 	Color,
 
 };

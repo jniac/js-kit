@@ -231,10 +231,13 @@ export default class Color {
 
 	}
 
-	static mix(color1, color2, t) {
+	static mix(color1, color2, t, clamp = true) {
 
 		color1 = Color.ensure(color1)
 		color2 = Color.ensure(color2)
+
+		if (clamp)
+			t = t < 0 ? 0 : t > 1 ? 1 : t
 
 		let t2 = 1 - t
 		let c = new Color()
@@ -246,6 +249,33 @@ export default class Color {
 
 		return c
 
+	}
+
+	static mixArray(colors, t, loop = true, ease = null) {
+
+		let n = colors.length
+
+		t = t < 0 ? 0 : t > n ? n : t
+
+		let i = Math.floor(t) % n
+		let f = t % 1
+
+		if (ease && typeof(ease) === 'function')
+			f = ease(f)
+
+		if (f === 0)
+			return Color.ensure(colors[i])
+
+		if (i === n - 1) {
+
+			if (!loop)
+				return Color.ensure(colors[i])
+
+			return Color.mix(colors[i], colors[0], f, true)
+
+		}
+
+		return Color.mix(colors[i], colors[i + 1], f, true)
 	}
 
 	yo() {
@@ -414,7 +444,7 @@ export default class Color {
 	 *\t if typeof alpha === 'number' : return #RRGGBBAA where AA is computed from the given alpha
 	 *\t if alpha === 'auto' : return #RRGGBBAA or #RRGGBB depending of the value this.a (this.a < 1)
 	 */
-	getHexString({ prefix = '#', alpha = 'auto', short = false } = {}) {
+	getHex({ prefix = '#', alpha = 'auto', short = false } = {}) {
 
 		let alphaIsNumber = typeof alpha === 'number'
 		let a = alphaIsNumber ? alpha : this.a
@@ -434,15 +464,21 @@ export default class Color {
 
 	}
 
+	get hex() {
+
+		return this.getHex()
+
+	}
+
 	valueOf() {
 
-		return this.getHexString()
+		return this.getHex()
 
 	}
 
 	toString() {
 
-		return this.getHexString()
+		return this.getHex()
 
 	}
 
