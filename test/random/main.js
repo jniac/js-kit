@@ -1,4 +1,4 @@
-import kit from '../src/kit.js'
+import kit from '../../src/kit.js'
 // import kit from 'https://jniac.github.io/js-kit/build/kit.module.js'
 
 let time = 0
