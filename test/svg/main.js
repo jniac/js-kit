@@ -2,7 +2,7 @@ import kit from '../../src/kit.js'
 
 let align = 1
 
-let update = () => kit.SVG.viewBoxWidthFit('svg', 1920, 1080, align)
+let update = () => kit.SVG.viewBoxFitWidth('svg', 1920, 1080, align)
 
 update()
 window.addEventListener('resize', update)

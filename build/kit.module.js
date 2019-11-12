@@ -623,12 +623,12 @@ var Ease = {
 
 };
 
-const viewBoxWidthFit = (svg, svgWidth, svgHeight, xAlign = .5) => {
+const viewBoxFitWidth = (svg, svgWidth, svgHeight, xAlign = .5) => {
 
 	if (typeof svg === 'string') {
 
 		for (let element of document.querySelectorAll(svg))
-			viewBoxWidthFit(element, svgWidth, svgHeight, xAlign);
+			viewBoxFitWidth(element, svgWidth, svgHeight, xAlign);
 
 		return
 	}
@@ -646,7 +646,7 @@ const viewBoxWidthFit = (svg, svgWidth, svgHeight, xAlign = .5) => {
 
 var SVG = {
 
-	viewBoxWidthFit,
+	viewBoxFitWidth,
 	
 };
 
