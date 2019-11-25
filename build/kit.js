@@ -60,7 +60,7 @@
 
 		}
 
-		suffle(array) {
+		shuffle(array) {
 
 			for (let n = array.length, i = 0; i < n; i++) {
 
@@ -80,19 +80,17 @@
 			return `Random(seed:${this.seed})`
 		}
 
-		static get seed() { return random.seed }
-
-		static next() { return random.next() }
-
-		static float() { return random.float(...arguments) }
-
-		static int() { return random.int(...arguments) }
-
-		static item(array) { return random.item(array) }
-
 	}
 
 	let random = new Random();
+
+	let { constructor, toString, ...props } = Object.getOwnPropertyDescriptors(Random.prototype);
+
+	for (let key in Object.keys(props)) {
+
+		Random[key] = random[key];
+
+	}
 
 	let CSS = {
 
