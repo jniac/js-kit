@@ -1,6 +1,6 @@
 /*
 	kit.js
-	2019-11-05 07:08 GMT(+1)
+	2019-11-25 14:17 GMT(+1)
 	js toolkit
 	https://github.com/jniac/js-kit
 */
@@ -58,6 +58,21 @@ class Random {
 	item(array) {
 
 		return array[this.int(array.length)]
+
+	}
+
+	suffle(array) {
+
+		for (let n = array.length, i = 0; i < n; i++) {
+
+			let temp = array[i];
+			let index = this.int(n);
+			array[i] = array[index];
+			array[index] = temp;
+
+		}
+
+		return array
 
 	}
 
@@ -647,8 +662,10 @@ const viewBoxFitWidth = (svg, svgWidth, svgHeight, xAlign = .5) => {
 var SVG = {
 
 	viewBoxFitWidth,
-	
+
 };
+
+const wait = delay => new Promise(resolve => setTimeout(resolve, delay));
 
 var kit = {
 
@@ -656,6 +673,8 @@ var kit = {
 	Ease,
 	Color,
 	SVG,
+
+	wait,
 
 };
 

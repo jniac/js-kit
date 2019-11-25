@@ -60,6 +60,21 @@
 
 		}
 
+		suffle(array) {
+
+			for (let n = array.length, i = 0; i < n; i++) {
+
+				let temp = array[i];
+				let index = this.int(n);
+				array[i] = array[index];
+				array[index] = temp;
+
+			}
+
+			return array
+
+		}
+
 		toString() {
 
 			return `Random(seed:${this.seed})`
@@ -646,8 +661,10 @@
 	var SVG = {
 
 		viewBoxFitWidth,
-		
+
 	};
+
+	const wait = delay => new Promise(resolve => setTimeout(resolve, delay));
 
 	var kit = {
 
@@ -655,6 +672,8 @@
 		Ease,
 		Color,
 		SVG,
+
+		wait,
 
 	};
 
