@@ -86,11 +86,9 @@
 
 	let { constructor, toString, ...props } = Object.getOwnPropertyDescriptors(Random.prototype);
 
-	console.log(Object.keys(props));
-
 	for (let key of Object.keys(props)) {
 
-		Random[key] = random[key];
+		Random[key] = random[key].bind(random);
 
 	}
 

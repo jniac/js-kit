@@ -1,6 +1,6 @@
 /*
 	kit.js
-	2019-11-25 17:14 GMT(+1)
+	2019-11-25 17:20 GMT(+1)
 	js toolkit
 	https://github.com/jniac/js-kit
 */
@@ -87,11 +87,9 @@ let random = new Random();
 
 let { constructor, toString, ...props } = Object.getOwnPropertyDescriptors(Random.prototype);
 
-console.log(Object.keys(props));
-
 for (let key of Object.keys(props)) {
 
-	Random[key] = random[key];
+	Random[key] = random[key].bind(random);
 
 }
 
