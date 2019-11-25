@@ -81,7 +81,9 @@ let random = new Random()
 
 let { constructor, toString, ...props } = Object.getOwnPropertyDescriptors(Random.prototype)
 
-for (let key in Object.keys(props)) {
+console.log(Object.keys(props))
+
+for (let key of Object.keys(props)) {
 
 	Random[key] = random[key]
 
