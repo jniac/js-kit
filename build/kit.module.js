@@ -1,6 +1,6 @@
 /*
 	kit.js
-	2019-11-25 14:17 GMT(+1)
+	2019-11-25 16:54 GMT(+1)
 	js toolkit
 	https://github.com/jniac/js-kit
 */
@@ -665,7 +665,7 @@ var SVG = {
 
 };
 
-const wait = delay => new Promise(resolve => setTimeout(resolve, delay));
+const wait = delay => new Promise(resolve => setTimeout(resolve, delay * 1e3));
 
 var kit = {
 

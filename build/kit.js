@@ -664,7 +664,7 @@
 
 	};
 
-	const wait = delay => new Promise(resolve => setTimeout(resolve, delay));
+	const wait = delay => new Promise(resolve => setTimeout(resolve, delay * 1e3));
 
 	var kit = {
 
