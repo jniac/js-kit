@@ -1,6 +1,6 @@
 /*
 	kit.js
-	2019-11-25 17:20 GMT(+1)
+	2019-12-19 15:35 GMT(+1)
 	js toolkit
 	https://github.com/jniac/js-kit
 */
@@ -246,6 +246,15 @@ let CSS = {
 
 };
 
+let numberToCss = new Map();
+
+for (let [name, color] of Object.entries(CSS)) {
+
+	let number = parseInt(color.slice(1), 16);
+	numberToCss.set(number, name);
+
+}
+
 let re = {
 
 	rgba: /rgba.(\d+)[\s|,]+(\d+)[\s|,]+(\d+)[\s|,]+([\d|\.]+)/,
@@ -373,10 +382,6 @@ class Color {
 		return Color.mix(colors[i], colors[i + 1], f, true)
 	}
 
-	yo() {
-		return 'lol'
-	}
-
 	constructor() {
 
 		this.r = 1;
@@ -438,6 +443,14 @@ class Color {
 				return this.setHsl(h / 360, s / 100, l / 100)
 
 			}
+		}
+
+		if (Array.isArray(arguments[0])) {
+
+			let [r = 1, b = 1, g = 1, a = 1] = arguments[0];
+
+			this.setRGBA(r, g, b, a);
+
 		}
 
 	}
@@ -561,6 +574,23 @@ class Color {
 	get hex() {
 
 		return this.getHex()
+
+	}
+
+	getCss() {
+
+		let { r, g, b } = this;
+		r = Math.min(Math.floor(0xff * r), 0xff);
+		g = Math.min(Math.floor(0xff * g), 0xff);
+		b = Math.min(Math.floor(0xff * b), 0xff);
+		let number = (r << 16) + (g << 8) + b;
+		return numberToCss.has(number) ? numberToCss.get(number) : this.getHex()
+
+	}
+
+	get css() {
+
+		return this.getCss()
 
 	}
 
