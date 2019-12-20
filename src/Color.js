@@ -174,6 +174,18 @@ function clamp(x, min = 0, max = 1) {
 
 }
 
+function to255(f) {
+
+	return Math.min(Math.floor(f * 0x100), 0xff)
+
+}
+
+function from255(i) {
+
+	return i / 0xff
+
+}
+
 function toF(x) {
 
 	return Math.round(clamp(x) * 0xf).toString(16)
@@ -183,6 +195,18 @@ function toF(x) {
 function toFF(x) {
 
 	return Math.round(clamp(x) * 0xff).toString(16).padStart(2, '0')
+
+}
+
+function toRgbString(r, g, b) {
+
+	return `rgb(${to255(r)}, ${to255(g)}, ${to255(b)})`
+
+}
+
+function toHslString(h, s, l) {
+
+	return `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`
 
 }
 
@@ -301,63 +325,75 @@ export default class Color {
 
 	set() {
 
-		if (typeof arguments[0] === 'string') {
+		if (arguments.length === 1) {
 
-			let str = arguments[0]
-			let alpha = arguments[1]
+			if (typeof arguments[0] === 'string') {
 
-			if (str.toLowerCase() in CSS)
-				str = CSS[str.toLowerCase()]
+				let str = arguments[0]
+				let alpha = arguments[1]
 
-			if (str[0] === '#') {
+				if (str.toLowerCase() in CSS)
+					str = CSS[str.toLowerCase()]
 
-				let [, alpha = 1] = arguments
+				if (str[0] === '#') {
 
-				str = str.slice(1)
+					let [, alpha = 1] = arguments
 
-				if (str.length === 3)
-					return this.setRGBA(...str.split('').map(v => Number('0x' + v) / 0xf), alpha)
+					str = str.slice(1)
 
-				if (str.length === 4)
-					return this.setRGBA(...str.split('').map(v => Number('0x' + v) / 0xf))
+					if (str.length === 3)
+						return this.setRGBA(...str.split('').map(v => Number('0x' + v) / 0xf), alpha)
 
-				if (str.length === 6)
-					return this.setRGBA(...str.match(/.{2}/g).map(v => Number('0x' + v) / 0xff), alpha)
+					if (str.length === 4)
+						return this.setRGBA(...str.split('').map(v => Number('0x' + v) / 0xf))
 
-				if (str.length === 8)
-					return this.setRGBA(...str.match(/.{2}/g).map(v => Number('0x' + v) / 0xff))
+					if (str.length === 6)
+						return this.setRGBA(...str.match(/.{2}/g).map(v => Number('0x' + v) / 0xff), alpha)
+
+					if (str.length === 8)
+						return this.setRGBA(...str.match(/.{2}/g).map(v => Number('0x' + v) / 0xff))
+
+				}
+
+				if (str.startsWith('rgba')) {
+
+					let [, r, g, b, a] = str.match(re.rgba) || [, 255, 255, 255, 1]
+					return this.setRGBA(r / 255, g / 255, b / 255, a)
+
+				}
+
+				if (str.startsWith('rgb')) {
+
+					let [, r, g, b] = str.match(re.rgb) || [, 255, 255, 255]
+					return this.setRGB(r / 255, g / 255, b / 255)
+
+				}
+
+				if (str.startsWith('hsl')) {
+
+					let [, h, s, l] = str.match(re.hsl) || [, 0, 100, 50]
+					return this.setHsl(h / 360, s / 100, l / 100)
+
+				}
+
+			} else if (Array.isArray(arguments[0])) {
+
+				let [r = 1, b = 1, g = 1, a = 1] = arguments[0]
+				return this.setRGBA(r, g, b, a)
 
 			}
 
-			if (str.startsWith('rgba')) {
+		} else if (arguments.length === 3) {
 
-				let [, r, g, b, a] = str.match(re.rgba) || [, 255, 255, 255, 1]
-				return this.setRGBA(r / 255, g / 255, b / 255, a)
+			return this.setRGB(...arguments)
 
-			}
+		} else if (arguments.length === 4) {
 
-			if (str.startsWith('rgb')) {
+			return this.setRGBA(...arguments)
 
-				let [, r, g, b] = str.match(re.rgb) || [, 255, 255, 255]
-				return this.setRGB(r / 255, g / 255, b / 255)
-
-			}
-
-			if (str.startsWith('hsl')) {
-
-				let [, h, s, l] = str.match(re.hsl) || [, 0, 100, 50]
-				return this.setHsl(h / 360, s / 100, l / 100)
-
-			}
 		}
 
-		if (Array.isArray(arguments[0])) {
-
-			let [r = 1, b = 1, g = 1, a = 1] = arguments[0]
-
-			this.setRGBA(r, g, b, a)
-
-		}
+		throw new Error(`cannot parse arguments`)
 
 	}
 
@@ -387,6 +423,18 @@ export default class Color {
 		this.a = a
 
 		return this
+
+	}
+
+	getRgbString() {
+
+		return toRgbString(this.r, this.g, this.b)
+
+	}
+
+	get rgbString() {
+
+		return this.getRgbString()
 
 	}
 
@@ -450,6 +498,51 @@ export default class Color {
 
 	}
 
+	get hue() { return this.getHsl()[0] }
+
+	set hue(value) {
+
+		let [,s,l] = this.getHsl()
+		this.setHsl(value, s, l)
+
+	}
+
+	get saturation() { return this.getHsl()[1] }
+
+	set saturation(value) {
+
+		let [h,,l] = this.getHsl()
+		this.setHsl(h, value, l)
+
+	}
+
+	get luminosity() { return this.getHsl()[2] }
+
+	set luminosity(value) {
+
+		let [h,s] = this.getHsl()
+		this.setHsl(h, s, value)
+
+	}
+
+	getHslString() {
+
+		return toHslString(...this.getHsl())
+
+	}
+
+	getHex() {
+
+		let r = to255(this.r)
+		let g = to255(this.g)
+		let b = to255(this.b)
+
+		return (r << 16) + (g << 8) + b
+
+	}
+
+	get hex() { return this.getHex() }
+
 	/**
 	 * @param alpha
 	 *\t if alpha === false : return #RRGGBB
@@ -457,7 +550,7 @@ export default class Color {
 	 *\t if typeof alpha === 'number' : return #RRGGBBAA where AA is computed from the given alpha
 	 *\t if alpha === 'auto' : return #RRGGBBAA or #RRGGBB depending of the value this.a (this.a < 1)
 	 */
-	getHex({ prefix = '#', alpha = 'auto', short = false } = {}) {
+	getHexString({ prefix = '#', alpha = 'auto', short = false } = {}) {
 
 		let alphaIsNumber = typeof alpha === 'number'
 		let a = alphaIsNumber ? alpha : this.a
@@ -477,9 +570,9 @@ export default class Color {
 
 	}
 
-	get hex() {
+	get hexString() {
 
-		return this.getHex()
+		return this.getHexString()
 
 	}
 
@@ -490,7 +583,7 @@ export default class Color {
 		g = Math.min(Math.floor(0xff * g), 0xff)
 		b = Math.min(Math.floor(0xff * b), 0xff)
 		let number = (r << 16) + (g << 8) + b
-		return numberToCss.has(number) ? numberToCss.get(number) : this.getHex()
+		return numberToCss.has(number) ? numberToCss.get(number) : this.getHexString()
 
 	}
 
@@ -502,13 +595,29 @@ export default class Color {
 
 	valueOf() {
 
-		return this.getHex()
+		return this.getHexString()
+
+	}
+
+	equals(other, { tolerant = false } = {}) {
+
+		if (!(other instanceof Color))
+			other = Color.ensure(other)
+
+		if (tolerant)
+			return this.getHex() === other.getHex()
+
+		return (
+			this.r === other.r &&
+			this.g === other.g &&
+			this.b === other.b &&
+			this.a === other.a)
 
 	}
 
 	toString() {
 
-		return this.getHex()
+		return this.getHexString()
 
 	}
 
