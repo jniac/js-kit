@@ -13,7 +13,7 @@ usage:
 <script src="https://jniac.github.io/js-kit/build/kit.js"></script>
 ```
 ```javascript
-import kit from 'https://jniac.github.io/js-kit/build/kit.module.js  '
+import kit from 'https://jniac.github.io/js-kit/build/kit.module.js'
 ```
 ## files
 
