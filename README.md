@@ -5,8 +5,8 @@
 online demo (Random + Color): [test/index.html](https://jniac.github.io/js-kit/test/)  
 
 links:  
-`https://jniac.github.io/js-kit/build/kit.js`  
-`https://jniac.github.io/js-kit/build/kit.module.js`  
+[`jniac.github.io/js-kit/build/kit.js`](https://jniac.github.io/js-kit/build/kit.js)  
+[`jniac.github.io/js-kit/build/kit.module.js`](https://jniac.github.io/js-kit/build/kit.module.js)  
 
 usage:  
 ```html
