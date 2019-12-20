@@ -2,10 +2,13 @@
 
 ## online
 
-online demo (Random + Color): [test/index.jtml](https://jniac.github.io/js-kit/test/)  
+online demo (Random + Color): [test/index.html](https://jniac.github.io/js-kit/test/)  
 
-https://jniac.github.io/js-kit/build/kit.js  
-https://jniac.github.io/js-kit/build/kit.module.js  
+links:  
+`https://jniac.github.io/js-kit/build/kit.js`  
+`https://jniac.github.io/js-kit/build/kit.module.js`  
+
+usage:  
 ```html
 <script src="https://jniac.github.io/js-kit/build/kit.js"></script>
 ```
