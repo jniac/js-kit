@@ -50,7 +50,12 @@ for (let code of document.querySelectorAll('code')) {
 
     code.parentElement.insertBefore(result, code.nextElementSibling)
 
-	code.onclick = () => result.innerHTML = getResult()
+	code.onclick = async () => {
+        result.innerHTML = getResult()
+        result.classList.add('highlight')
+        await kit.wait(.1)
+        result.classList.remove('highlight')
+    }
 
 }
 

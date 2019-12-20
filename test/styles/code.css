@@ -6,7 +6,8 @@ main * + * {
 code {
     display: block;
 	padding: 16px;
-	background-color: white;
+	background-color: #f6f6f6;
+    position: relative;
 }
 code + code {
     margin-top: 16px;
@@ -15,12 +16,43 @@ code.source {
 	border-radius: 4px 4px 0 0;
 	cursor: pointer;
 	user-select: none;
+    transition: .1s;
+}
+code.source:hover {
+    transform: translateX(8px);
+    border-radius: 0 4px 4px 0;
+    background-color: #fff;
+}
+code.source::before {
+    content: '>';
+    width: 20px;
+    height: 100%;
+    position: absolute;
+    left: -21px;
+    top: 0;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px 0 0 4px;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: .3s;
+}
+code.source:hover::before {
+    opacity: 1;
+    transform: translateX(0);
 }
 code.result {
 	margin-top: 1px;
 	border-radius: 0 0 4px 4px;
 	color: #63c;
 	font-style: italic;
+    transition: .5s;
+}
+code.result.highlight {
+    background-color: white;
+    transition: 0s;
 }
 
 code.mono {
