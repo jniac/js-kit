@@ -1,6 +1,7 @@
 
 body {
 	background-color: #eee;
+	font-family: 'Roboto Mono', monospace;
 }
 main > a {
 	display: block;

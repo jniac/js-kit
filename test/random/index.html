@@ -1,21 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
 	<head>
 		<meta charset="utf-8">
 		<title>Random & Color examples</title>
-		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="../styles/base.css">
+		<link rel="stylesheet" href="../styles/code.css">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<h1>Random examples:</h1>
-		<pre class="src">let random = new kit.Random()</pre>
-		<pre class="src">random.float()</pre>
-		<pre class="src">random.float(100)</pre>
-		<pre class="src">random.int(100)</pre>
-		<pre class="src">random.float(30, 40)</pre>
-		<pre class="src">random.int(30, 40)</pre>
-		<pre class="src">random.item(['red', 'green', 'blue'])</pre>
-		<pre class="src">random.shuffle([...'abcdef'])</pre>
+		<code class="source">let random = new kit.Random()</code>
+		<code class="source">
+			<p>random.float()</p>
+			<p>random.float(100)</p>
+		</code>
+		<code class="source">
+			<p>random.int(100)</p>
+			<p>random.int(30, 40)</p>
+		</code>
+		<code class="source">random.item(['red', 'green', 'blue'])</code>
+		<code class="source">random.shuffle([...'abcdef'])</code>
 
-		<script src="main.js" type="module"></script>
+		<script src="../scripts/code.js" type="module"></script>
 	</body>
 </html>

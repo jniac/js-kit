@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Color examples</title>
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="../styles/base.css">
+		<link rel="stylesheet" href="../styles/code.css">
+	</head>
+	<body>
+		<main>
+			<h1>Color examples:</h1>
+
+	        <code class="source">let color = new kit.Color('forestgreen')</code>
+
+	        <code class="source">
+	            <p>color.r</p>
+	            <p>color.g</p>
+	            <p>color.b</p>
+	            <p>color.a</p>
+	        </code>
+
+			<code class="source">
+	            <p>color.equals('forestgreen')</p>
+	            <p>color.equals('#228b22')</p>
+	            <p>color.equals(new kit.Color(0.13333333333333333, 0.5450980392156862, 0.13333333333333333))</p>
+	        </code>
+
+			<code class="source">
+				<p>color.getHsl()</p>
+				<p>// NOTE: hue is between [0,1]</p>
+				<p>color.getHsl()[0] * 360</p>
+				<p>// NOTE: there is a shorthand for 'hue':</p>
+				<p>color.hue * 360</p>
+			</code>
+
+			<h2>String</h2>
+			<code>
+				<p>color.getHexString()</p>
+				<p>color.getRgbString()</p>
+				<p>color.getHslString()</p>
+			</code>
+
+			<h2>Shorthands</h2>
+			<code class="source">
+				<p>color.hex.toString(16)</p>
+				<p>color.hexString</p>
+				<p>color.css</p>
+				<p>color.hue</p>
+				<p>color.saturation</p>
+				<p>color.luminosity</p>
+			</code>
+		</main>
+
+		<script src="../scripts/code.js" type="module"></script>
+		<script src="animation.js" type="module"></script>
+	</body>
+</html>

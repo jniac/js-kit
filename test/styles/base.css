@@ -1,0 +1,15 @@
+* {
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	padding: 64px;
+	background-color: #ddd;
+	color: #222;
+    font-family: 'Roboto Mono', monospace;
+}
+
+h1 {
+    margin-bottom: 12px;
+}

@@ -1,0 +1,39 @@
+
+main * + * {
+    margin-top: 16px;
+}
+
+code {
+    display: block;
+	padding: 16px;
+	background-color: white;
+}
+code + code {
+    margin-top: 16px;
+}
+code.source {
+	border-radius: 4px 4px 0 0;
+	cursor: pointer;
+	user-select: none;
+}
+code.result {
+	margin-top: 1px;
+	border-radius: 0 0 4px 4px;
+	color: #63c;
+	font-style: italic;
+}
+
+code.mono {
+    white-space: pre;
+}
+code p {
+    white-space: pre;
+}
+code p + p {
+    margin-top: 2px;
+    padding-top: 2px;
+}
+code p.comment {
+    color: #bbb;
+    font-style: italic;
+}
