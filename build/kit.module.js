@@ -1,6 +1,6 @@
 /*
 	kit.js
-	2019-12-20 11:29 GMT(+1)
+	2020-01-08 13:51 GMT(+1)
 	js toolkit
 	https://github.com/jniac/js-kit
 */
@@ -505,6 +505,11 @@ class Color {
 		return this
 
 	}
+
+	get rgb() { return [this.r, this.g, this.b] }
+	set rgb(value) { this.setRGB(...value); }
+	get rgba() { return [this.r, this.g, this.b, this.a] }
+	set rgba(value) { this.setRGBA(...value); }
 
 	setAlpha(a) {
 

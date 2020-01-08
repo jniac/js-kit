@@ -505,6 +505,11 @@
 
 		}
 
+		get rgb() { return [this.r, this.g, this.b] }
+		set rgb(value) { this.setRGB(...value); }
+		get rgba() { return [this.r, this.g, this.b, this.a] }
+		set rgba(value) { this.setRGBA(...value); }
+
 		setAlpha(a) {
 
 			this.a = a;
