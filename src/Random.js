@@ -41,23 +41,44 @@ export default class Random {
 		return Math.floor(this.float(...arguments))
 	}
 
-	item(array) {
+	item(items) {
 
-		return array[this.int(array.length)]
+		return items[this.int(items.length)]
 	}
 
-	shuffle(array) {
+	weigthedItem(items, { weightDelegate = item => item.weight } = {}) {
 
-		for (const n = array.length, i = 0; i < n; i++) {
+		if (typeof weightDelegate === 'string')
+			return this.weigthedItem(items, { weightDelegate:item => item[weightDelegate] })
 
-			const temp = array[i]
+		const weights = items.map(weightDelegate)
+		const sum = weights.reduce((x, y) => x + y)
+		const draw = sum * this.float()
+
+		let acc = 0, n = items.length
+		for (let i = 0; i < n; i++) {
+
+			acc += weights[i]
+			if (acc >= draw)
+				return items[i]
+		}
+
+		throw new Error(`oops, this should not happen!`)
+	}
+
+	shuffle(items) {
+
+		const n = items.length
+		for (let i = 0; i < n; i++) {
+
+			const temp = items[i]
 			const index = this.int(n)
-			array[i] = array[index]
-			array[index] = temp
+			items[i] = items[index]
+			items[index] = temp
 
 		}
 
-		return array
+		return items
 	}
 
 	toString() {
