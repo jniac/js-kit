@@ -52,10 +52,10 @@ class Random {
 		return items[this.int(items.length)]
 	}
 
-	weigthedItem(items, { weightDelegate = item => item.weight } = {}) {
+	weightedItem(items, { weightDelegate = item => item.weight } = {}) {
 
 		if (typeof weightDelegate === 'string')
-			return this.weigthedItem(items, { weightDelegate:item => item[weightDelegate] })
+			return this.weightedItem(items, { weightDelegate:item => item[weightDelegate] })
 
 		const weights = items.map(weightDelegate);
 		const sum = weights.reduce((x, y) => x + y);
