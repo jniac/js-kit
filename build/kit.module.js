@@ -1,6 +1,6 @@
 /*
 	kit.js
-	2020-01-08 13:51 GMT(+1)
+	2020-08-10 11:22 GMT(+2)
 	js toolkit
 	https://github.com/jniac/js-kit
 */
@@ -18,62 +18,73 @@ class Random {
 	constructor(seed = 123456789) {
 
 		this.seed = seed;
-
 	}
 
 	next() {
 
 		return this.seed = this.seed * 16807 % 2147483647
-
 	}
 
 	float() {
 
 		if (arguments.length === 1) {
 
-			let [scalar] = arguments;
-
+			const [scalar] = arguments;
 			return scalar * this.float()
-
 		}
 
 		if (arguments.length === 2) {
 
-			let [min, max] = arguments;
-
+			const [min, max] = arguments;
 			return min + (max - min) * this.float()
-
 		}
 
 		return (this.next() - 1) / 2147483646
-
 	}
 
 	int() {
 
 		return Math.floor(this.float(...arguments))
-
 	}
 
-	item(array) {
+	item(items) {
 
-		return array[this.int(array.length)]
-
+		return items[this.int(items.length)]
 	}
 
-	shuffle(array) {
+	weigthedItem(items, { weightDelegate = item => item.weight } = {}) {
 
-		for (let n = array.length, i = 0; i < n; i++) {
+		if (typeof weightDelegate === 'string')
+			return this.weigthedItem(items, { weightDelegate:item => item[weightDelegate] })
 
-			let temp = array[i];
-			let index = this.int(n);
-			array[i] = array[index];
-			array[index] = temp;
+		const weights = items.map(weightDelegate);
+		const sum = weights.reduce((x, y) => x + y);
+		const draw = sum * this.float();
+
+		let acc = 0, n = items.length;
+		for (let i = 0; i < n; i++) {
+
+			acc += weights[i];
+			if (acc >= draw)
+				return items[i]
+		}
+
+		throw new Error(`oops, this should not happen!`)
+	}
+
+	shuffle(items) {
+
+		const n = items.length;
+		for (let i = 0; i < n; i++) {
+
+			const temp = items[i];
+			const index = this.int(n);
+			items[i] = items[index];
+			items[index] = temp;
 
 		}
 
-		return array
-
+		return items
 	}
 
 	toString() {
@@ -83,14 +94,16 @@ class Random {
 
 }
 
-let random = new Random();
+const random = new Random();
 
-let { constructor, toString, ...props } = Object.getOwnPropertyDescriptors(Random.prototype);
+const {
+	constructor, toString,
+	...props
+} = Object.getOwnPropertyDescriptors(Random.prototype);
 
-for (let key of Object.keys(props)) {
+for (const key of Object.keys(props)) {
 
 	Random[key] = random[key].bind(random);
-
 }
 
 let CSS = {
@@ -815,3 +828,4 @@ var kit = {
 };
 
 export default kit;
+export { Color, Ease, Random, SVG, wait };

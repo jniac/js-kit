@@ -37,6 +37,7 @@ export default {
 		{
 			format: 'umd',
 			name: 'kit',
+			exports: 'named',
 			file: 'build/kit.js',
 			indent: '\t'
 		},
