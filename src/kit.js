@@ -5,6 +5,17 @@ import SVG from './SVG.js'
 
 const wait = delay => new Promise(resolve => setTimeout(resolve, delay * 1e3))
 
+export {
+
+	Random,
+	Ease,
+	Color,
+	SVG,
+
+	wait,
+
+}
+
 export default {
 
 	Random,

@@ -11,63 +11,53 @@ export default class Random {
 
 	constructor(seed = 123456789) {
 
-		this.seed = seed;
-
+		this.seed = seed
 	}
 
 	next() {
 
 		return this.seed = this.seed * 16807 % 2147483647
-
 	}
 
 	float() {
 
 		if (arguments.length === 1) {
 
-			let [scalar] = arguments
-
+			const [scalar] = arguments
 			return scalar * this.float()
-
 		}
 
 		if (arguments.length === 2) {
 
-			let [min, max] = arguments
-
+			const [min, max] = arguments
 			return min + (max - min) * this.float()
-
 		}
 
 		return (this.next() - 1) / 2147483646
-
 	}
 
 	int() {
 
 		return Math.floor(this.float(...arguments))
-
 	}
 
 	item(array) {
 
 		return array[this.int(array.length)]
-
 	}
 
 	shuffle(array) {
 
-		for (let n = array.length, i = 0; i < n; i++) {
+		for (const n = array.length, i = 0; i < n; i++) {
 
-			let temp = array[i]
-			let index = this.int(n)
+			const temp = array[i]
+			const index = this.int(n)
 			array[i] = array[index]
 			array[index] = temp
 
 		}
 
 		return array
-
 	}
 
 	toString() {
@@ -77,12 +67,14 @@ export default class Random {
 
 }
 
-let random = new Random()
+const random = new Random()
 
-let { constructor, toString, ...props } = Object.getOwnPropertyDescriptors(Random.prototype)
+const {
+	constructor, toString,
+	...props
+} = Object.getOwnPropertyDescriptors(Random.prototype)
 
-for (let key of Object.keys(props)) {
+for (const key of Object.keys(props)) {
 
 	Random[key] = random[key].bind(random)
-
 }
