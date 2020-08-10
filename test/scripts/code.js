@@ -12,51 +12,110 @@ const formatResult = value => {
 
 }
 
-const evalCode = code => {
+const formatCode = string => {
 
-    let script = code.innerText.replace('let ', 'window.')
+    const text = string.replace(/^\n*/, '')
 
-    return formatResult(eval(script))
+    const [leadingSpaces] = text.match(/^\s*/)
 
+    const lines = text.trim()
+        .split('\n')
+        .map(line => /^\s+$/.test(line) ? '' : line)
+
+    return (
+        lines
+            .map(line => line.startsWith(leadingSpaces) ? line.substring(leadingSpaces.length) : line)
+            .join('\n')
+    )
 }
 
-for (let code of document.querySelectorAll('code')) {
+const evalAndExpose = script => {
 
-    let ps = code.querySelectorAll('p')
+    const lines = script.split('\n')
 
-    let getResult
+    const exportLines = lines
+        .map(line => line.match(/^(?:let|const)\s(\w+)/))
+        .filter(match => match)
+        .map(match => match[1])
 
-    if (ps.length > 0) {
+    if (exportLines.length > 0) {
 
-        for (let p of ps) {
-            if (p.innerHTML.startsWith('//'))
-                p.classList.add('comment')
-        }
+        script += `\nObject.assign(globalThis, { ${exportLines.join(',')} })`
+    }
 
-        getResult = () => [...ps]
-            .filter(p => !p.innerHTML.startsWith('//'))
-            .map(p => `<p>${evalCode(p)}</p>`)
+    return eval(script)
+}
+
+const lineIsComment = line => line.startsWith('//')
+const divWrap = line => {
+
+    const classes = ['line']
+
+    if (lineIsComment(line))
+        classes.push('comment')
+
+    return `<div class="${classes.join(' ')}">${line}</div>`
+}
+
+const injectResultElement = codeElement => {
+
+    codeElement.classList.add('with-result')
+
+    const resultElement = document.createElement('code')
+    resultElement.classList.add('result')
+
+    codeElement.parentElement.insertBefore(resultElement, codeElement.nextElementSibling)
+
+    return resultElement
+}
+
+for (const codeElement of document.querySelectorAll('code')) {
+
+    const lines = formatCode(codeElement.innerText)
+        .split('\n')
+
+    evalAndExpose(lines.join('\n'))
+
+    codeElement.innerHTML = lines
+        .map(divWrap)
+        .join('')
+
+    if (codeElement.classList.contains('eval-lines')) {
+
+        const result = injectResultElement(codeElement)
+
+        const getResult = () => lines
+            .filter(line => !lineIsComment(line))
+            .map(line => String(eval(line)))
             .join('\n')
 
-    } else {
+            result.innerHTML = getResult()
 
-        getResult = () => evalCode(code)
+        codeElement.onclick = async () => {
 
+            result.innerHTML = getResult()
+            result.classList.add('highlight')
+            await kit.wait(.1)
+            result.classList.remove('highlight')
+        }
     }
 
-	let result = document.createElement('code')
-	result.classList.add('result')
-	result.innerHTML = getResult()
+    if (codeElement.classList.contains('eval-all')) {
 
-    code.parentElement.insertBefore(result, code.nextElementSibling)
+        const result = injectResultElement(codeElement)
 
-	code.onclick = async () => {
+        const getResult = () => String(eval(lines.join('\n')))
+        
         result.innerHTML = getResult()
-        result.classList.add('highlight')
-        await kit.wait(.1)
-        result.classList.remove('highlight')
-    }
 
+        codeElement.onclick = async () => {
+
+            result.innerHTML = getResult()
+            result.classList.add('highlight')
+            await kit.wait(.1)
+            result.classList.remove('highlight')
+        }
+    }
 }
 
 window.kit = kit

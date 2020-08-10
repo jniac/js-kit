@@ -10,6 +10,7 @@ requestAnimationFrame(function animation() {
         h.style.color =
             kit.Color.mixArray(['blue', '#96f', 'red'], (1 + time * .7) % 3, x => kit.Ease.inout(x, .5))
 
-	requestAnimationFrame(animation)
+	document.body.style.backgroundColor = kit.Color.mixArray(['#eee', '#999', '#fc0'], (2 + time * .7) % 3, x => kit.Ease.inout(x, .5))
 
+	requestAnimationFrame(animation)
 })

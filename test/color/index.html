@@ -11,46 +11,48 @@
 		<main>
 			<h1>Color examples:</h1>
 
-	        <code class="source">let color = new kit.Color('forestgreen')</code>
+	        <code class="source">const color = new kit.Color('forestgreen')</code>
 
-	        <code class="source">
-	            <p>color.r</p>
-	            <p>color.g</p>
-	            <p>color.b</p>
-	            <p>color.a</p>
+	        <code class="source eval-lines">color</code>
+
+	        <code class="source eval-lines">
+	            color.r
+	            color.g
+	            color.b
+	            color.a
 	        </code>
 
-			<code class="source">
-	            <p>color.equals('forestgreen')</p>
-	            <p>color.equals('#228b22')</p>
-	            <p>color.equals(new kit.Color(0.13333333333333333, 0.5450980392156862, 0.13333333333333333))</p>
+			<code class="source eval-lines">
+	            color.equals('forestgreen')
+	            color.equals('#228b22')
+	            color.equals(new kit.Color(0.13333333333333333, 0.5450980392156862, 0.13333333333333333))
 	        </code>
 
-			<code class="source">
-				<p>color.getHsl()</p>
-				<p>// NOTE: hue is between [0,1]</p>
-				<p>color.getHsl()[0] * 360</p>
-				<p>// NOTE: there is a shorthand for 'hue':</p>
-				<p>color.hue * 360</p>
+			<code class="source eval-lines">
+				color.getHsl()
+				// NOTE: hue is between [0,1]
+				color.getHsl()[0] * 360
+				// NOTE: there is a shorthand for 'hue':
+				color.hue * 360
 			</code>
 
 			<h2>String</h2>
-			<code class="source">
-				<p>color.getHexString()</p>
-				<p>color.getRgbString()</p>
-				<p>color.getHslString()</p>
+			<code class="source eval-lines">
+				color.getHexString()
+				color.getRgbString()
+				color.getHslString()
 			</code>
 
 			<h2>Shorthands</h2>
-			<code class="source">
-				<p>color.rgb</p>
-				<p>color.rgba</p>
-				<p>color.hex.toString(16)</p>
-				<p>color.hexString</p>
-				<p>color.css</p>
-				<p>color.hue</p>
-				<p>color.saturation</p>
-				<p>color.luminosity</p>
+			<code class="source eval-lines">
+				color.rgb
+				color.rgba
+				color.hex.toString(16)
+				color.hexString
+				color.css
+				color.hue
+				color.saturation
+				color.luminosity
 			</code>
 		</main>
 

@@ -1,5 +1,5 @@
 
-main * + * {
+main > * + * {
     margin-top: 16px;
 }
 
@@ -13,10 +13,14 @@ code + code {
     margin-top: 16px;
 }
 code.source {
-	border-radius: 4px 4px 0 0;
+	border-radius: 4px;
 	cursor: pointer;
 	user-select: none;
     transition: .1s;
+    white-space: pre;
+}
+code.source.with-result {
+    border-radius: 4px 4px 0 0;
 }
 code.source:hover {
     transform: translateX(8px);
@@ -49,6 +53,7 @@ code.result {
 	color: #63c;
 	font-style: italic;
     transition: .5s;
+    white-space: pre;
 }
 code.result.highlight {
     background-color: white;
@@ -65,7 +70,7 @@ code p + p {
     margin-top: 2px;
     padding-top: 2px;
 }
-code p.comment {
+code .comment {
     color: #bbb;
     font-style: italic;
 }

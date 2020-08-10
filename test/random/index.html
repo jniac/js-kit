@@ -9,18 +9,49 @@
 	</head>
 	<body>
 		<h1>Random examples:</h1>
-		<code class="source">let random = new kit.Random()</code>
 		<code class="source">
-			<p>random.float()</p>
-			<p>random.float(100)</p>
+			const random = new kit.Random()
 		</code>
-		<code class="source">
-			<p>random.int(100)</p>
-			<p>random.int(30, 40)</p>
-			<p>// NOTE: max value (100, 40) is exclusive</p>
+		<code class="source eval-lines">
+			random
 		</code>
-		<code class="source">random.item(['red', 'green', 'blue'])</code>
-		<code class="source">random.shuffle([...'abcdef'])</code>
+		<code class="source eval-lines">
+			random.float()
+			random.float(100)
+		</code>
+		<code class="source eval-lines">
+			random.int(100)
+			random.int(30, 40)
+			// NOTE: max values (100, 40) are not included
+		</code>
+		<code class="source eval-lines">
+			random.item(['red', 'green', 'blue'])
+		</code>
+		<code class="source eval-lines">
+			random.shuffle([...'abcdef'])
+		</code>
+		<code class="source eval-all">
+			const items = [
+				{ value:'a', weight:6 },
+				{ value:'b', weight:3 },
+				{ value:'c', weight:1 },
+			]
+			const getItem = () => random.weigthedItem(items)
+
+			const result = {
+				a:{ count:0, ratio:0 },
+				b:{ count:0, ratio:0 },
+				c:{ count:0, ratio:0 },
+			}
+
+			for (let i = 0, max = 1e5; i < max; i++) {
+				const item = getItem()
+				result[item.value].count++
+				result[item.value].ratio = (100 * result[item.value].count / max).toFixed(1) + '%'
+			}
+
+			JSON.stringify(result, null, '  ')
+		</code>
 
 		<script src="../scripts/code.js" type="module"></script>
 	</body>
